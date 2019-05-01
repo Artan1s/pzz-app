@@ -15,8 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mainNavigator = MainNavigator(this)
 
-        mainVm = createViewModel { Vms.vmComponent().mainVm() }
-
+        mainVm = createViewModel { Vms.standardVmComponent.mainVm() }
 
         val isFreshAppStart = savedInstanceState == null
         mainVm.onActivityCreate(isFreshAppStart)

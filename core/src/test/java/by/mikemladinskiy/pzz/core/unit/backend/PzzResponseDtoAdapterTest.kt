@@ -11,7 +11,6 @@ class PzzResponseDtoAdapterTest {
 
     @Test
     fun can_serialize_and_deserialize() {
-
         val pzzResponseDto = PzzResponseDto(PzzInnerResponseDto(TestData(20, "abc")))
 
         val moshi = Moshi.Builder()

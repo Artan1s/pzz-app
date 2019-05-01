@@ -1,19 +1,14 @@
 package by.mikemladinskiy.pzz.core.vm
 
 import by.mikemladinskiy.pzz.core.backend.createHttpPzzApi
-import by.mikemladinskiy.pzz.core.backend.internal.ResultConverterFactory
-import by.mikemladinskiy.pzz.core.backend.internal.RetrofitPzzApi
 import by.mikemladinskiy.pzz.core.model.PzzApi
-import com.squareup.moshi.Moshi
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import javax.inject.Singleton
-import dagger.BindsInstance
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Scheduler
 import javax.inject.Named
+import javax.inject.Singleton
 
 
 @Component(modules = arrayOf(VmModule::class))
@@ -21,6 +16,17 @@ import javax.inject.Named
 interface VmComponent {
     fun mainVm(): MainVm
     fun menuVm(): MenuVm
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun baseUrl(@Named("baseUrl") baseUrl: String): Builder
+
+        @BindsInstance
+        fun mainScheduler(@Named("mainScheduler") mainScheduler: Scheduler): Builder
+
+        fun build(): VmComponent
+    }
 }
 
 
@@ -29,8 +35,9 @@ private class VmModule {
 
     @Provides
     @Singleton
-    fun providesPzzApi(): PzzApi {
-        return createHttpPzzApi("https://pzz.by/api/v1/")
+    fun providesPzzApi(@Named("baseUrl") baseUrl: String,
+                       @Named("mainScheduler") mainScheduler: Scheduler): PzzApi {
+        return createHttpPzzApi(baseUrl, mainScheduler)
     }
 
 }

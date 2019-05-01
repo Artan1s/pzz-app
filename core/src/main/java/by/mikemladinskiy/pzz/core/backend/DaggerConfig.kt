@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 import dagger.BindsInstance
+import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
 
@@ -23,6 +24,9 @@ internal interface HttpPzzApiComponent {
     interface Builder {
         @BindsInstance
         fun baseUrl(@Named("baseUrl") baseUrl: String): Builder
+
+        @BindsInstance
+        fun mainScheduler(@Named("mainScheduler") mainScheduler: Scheduler): Builder
 
         fun build(): HttpPzzApiComponent
     }

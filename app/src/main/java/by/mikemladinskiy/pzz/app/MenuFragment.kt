@@ -34,6 +34,6 @@ class MenuFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        menuVm = createViewModel { Vms.vmComponent().menuVm() }
+        menuVm = createViewModel { Vms.standardVmComponent.menuVm() }
     }
 }

@@ -1,12 +1,9 @@
 package by.mikemladinskiy.pzz.core.integration
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import by.mikemladinskiy.pzz.core.StandardCompositionRoot
 import by.mikemladinskiy.pzz.core.backend.createHttpPzzApi
 import by.mikemladinskiy.pzz.core.model.Pizza
-import by.mikemladinskiy.pzz.core.vm.DaggerVmComponent
+import io.reactivex.schedulers.Schedulers
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
 
 
@@ -14,7 +11,8 @@ class BackendIntegrationTest {
 
     @Test
     fun can_get_pizzas() {
-        val httpPzzApi = createHttpPzzApi("https://pzz.by/api/v1/")
+        val httpPzzApi = createHttpPzzApi("https://pzz.by/api/v1/",
+            Schedulers.from { it.run() })
 
         val pizzas = httpPzzApi.getPizzas().blockingGet().value
         assertHasHawaiiPizza(pizzas)
