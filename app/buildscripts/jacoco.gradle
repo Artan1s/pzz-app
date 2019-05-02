@@ -15,7 +15,6 @@ project.afterEvaluate {
         description = "Generate Jacoco coverage reports for ci build."
 
         reports {
-            html.enabled = true
             xml.enabled = true
         }
 
@@ -69,8 +68,9 @@ project.afterEvaluate {
             println("!!!!!! $firebaseTestLabOutputDir")
 
             copy {
-                from "${buildDir}/reports/jacoco/ciFullCoverageReport"
+                from file("${buildDir}/reports/jacoco/ciFullCoverageReport/ciFullCoverageReport.xml")
                 into firebaseTestLabOutputDir
+                rename '.*', 'jacocoReport.xml'
             }
         }
     }
