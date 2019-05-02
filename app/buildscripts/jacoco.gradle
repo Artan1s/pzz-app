@@ -67,6 +67,11 @@ project.afterEvaluate {
         doLast {
             println("!!!!!! Coverage generated")
             println("!!!!!! $firebaseTestLabOutputDir")
+
+            copy {
+                from "${buildDir}/reports/jacoco/ciFullCoverageReport"
+                into firebaseTestLabOutputDir
+            }
         }
     }
 }
