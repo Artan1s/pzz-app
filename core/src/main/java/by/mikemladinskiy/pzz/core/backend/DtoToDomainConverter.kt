@@ -6,7 +6,7 @@ import by.mikemladinskiy.pzz.core.model.Price
 
 internal class DtoToDomainConverter {
     fun convert(pizzaDtos: List<PizzaDto>): List<Pizza> {
-        return pizzaDtos.toList().map {
+        return pizzaDtos.map {
             Pizza(it.id, it.title, it.photo_small, priceFromServerPrice(it.big_price))
         }
     }
