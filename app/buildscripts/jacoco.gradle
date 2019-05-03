@@ -11,6 +11,8 @@ project.afterEvaluate {
             name: "ciFullCoverageReport",
             type: JacocoReport
     ) {
+        def testTaskName = "testDebugUnitTest"
+
         group = "Reporting"
         description = "Generate Jacoco coverage reports for ci build."
 
@@ -58,9 +60,9 @@ project.afterEvaluate {
         }
 
         executionData = files(
-//            "${project.buildDir}/jacoco/${testTaskName}.exec",
-                connectedCoverageFile
-//            "../$coreProject/build/jacoco/${testTaskName}.exec"
+            "${project.buildDir}/jacoco/${testTaskName}.exec",
+                connectedCoverageFile,
+            "../$coreProject/build/jacoco/${testTaskName}.exec"
         )
 
         doLast {
