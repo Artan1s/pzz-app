@@ -28,6 +28,9 @@ internal interface HttpPzzApiComponent {
         @BindsInstance
         fun mainScheduler(@Named("mainScheduler") mainScheduler: Scheduler): Builder
 
+        @BindsInstance
+        fun apiMaybeDecorator(apiMaybeDecorator: ApiMaybeDecorator): Builder
+
         fun build(): HttpPzzApiComponent
     }
 }

@@ -14,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import java.lang.Thread.sleep
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -28,7 +29,9 @@ class MenuTest : BaseE2eTest() {
         // when
         launchActivity()
 
+        sleep(300)
+
         // then
-        Windows.menu().checkFirstPizzaIsDisplayed("Опята и курица", "16,90")
+        Windows.menu().checkFirstPizzaIsDisplayed("Гавайская", "16,90")
     }
 }

@@ -1,6 +1,8 @@
 package by.mikemladinskiy.pzz.core.integration
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import by.mikemladinskiy.pzz.core.backend.IdentityApiMaybeDecorator
+import by.mikemladinskiy.pzz.core.backend.createHttpPzzApi
 import by.mikemladinskiy.pzz.core.model.Pizza
 import by.mikemladinskiy.pzz.core.vm.Vms
 import io.reactivex.schedulers.Schedulers
@@ -14,8 +16,9 @@ class VmIntegrationTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private val vmComponent = Vms.vmComponent("https://pzz.by/api/v1/",
-        Schedulers.from { it.run() })
+    private val vmComponent = Vms.vmComponent(createHttpPzzApi("https://pzz.by/api/v1/",
+        Schedulers.from { it.run() },
+        IdentityApiMaybeDecorator()))
 
     @Test
     fun menu_vm_can_get_pizzas() {

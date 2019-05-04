@@ -24,6 +24,8 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    dataBinding.enabled = true
 }
 
 dependencies {
