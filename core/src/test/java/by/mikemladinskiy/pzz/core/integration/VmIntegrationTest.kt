@@ -16,19 +16,19 @@ class VmIntegrationTest {
     @get:Rule
     var rule = InstantTaskExecutorRule()
 
-    private val vmComponent = Vms.vmComponent(createHttpPzzApi("https://pzz.by/api/v1/",
-        Schedulers.from { it.run() },
+    val mainScheduler = Schedulers.from { it.run() }
+
+    private val vmComponent = Vms.createVmComponent(createHttpPzzApi("https://pzz.by/api/v1/",
+        mainScheduler,
         IdentityApiMaybeDecorator()))
 
     @Test
     fun menu_vm_can_get_pizzas() {
         val menuVm = vmComponent.menuVm()
 
-
-
-        Thread.sleep(3000)
-
-        val pizzas: List<Pizza> = menuVm.pizzasList.value
+        val pizzas: List<Pizza> = menuVm.pizzasList.rx()
+            .filter { !it.isEmpty() }
+            .blockingFirst()
 
         assertHasHawaiiPizza(pizzas)
     }

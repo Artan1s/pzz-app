@@ -13,9 +13,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (!Vms.isInitialized()) {
+            Vms.initialize(Vms.standardVmComponentProvider)
+        }
+
         mainNavigator = MainNavigator(this)
 
-        mainVm = createViewModel { Vms.standardVmComponent.mainVm() }
+        mainVm = createViewModel { Vms.vmComponent.mainVm() }
 
         val isFreshAppStart = savedInstanceState == null
         mainVm.onActivityCreate(isFreshAppStart)

@@ -29,8 +29,6 @@ class MenuTest : BaseE2eTest() {
         // when
         launchActivity()
 
-        sleep(300)
-
         // then
         Windows.menu().checkFirstPizzaIsDisplayed("Гавайская", "16,90")
     }
