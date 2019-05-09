@@ -19,6 +19,7 @@ class MenuVm @Inject constructor(pzzApi: PzzApi): BaseVm() {
     init {
         pzzApi.getPizzas()
             .subscribe(::pizzasResultReceived)
+            .let { bind(it) }
     }
 
     private fun pizzasResultReceived(result: Result<List<Pizza>, Unit>) {

@@ -13,11 +13,22 @@ object Vms {
         return ::vmComponentProvider.isInitialized
     }
 
-    val vmComponent: VmComponent by lazy { vmComponentProvider() }
+    private var vmComponent: VmComponent? = null
+
+    fun getVmComponent(): VmComponent {
+        if (vmComponent == null) {
+            vmComponent = vmComponentProvider()
+        }
+        return vmComponent!!
+    }
 
     fun createVmComponent(pzzApi: PzzApi) = DaggerVmComponent.builder()
         .pzzApi(pzzApi)
         .build()
+
+    fun reset() {
+        vmComponent = null
+    }
 
     fun initialize(provider: () -> VmComponent) {
         vmComponentProvider = provider

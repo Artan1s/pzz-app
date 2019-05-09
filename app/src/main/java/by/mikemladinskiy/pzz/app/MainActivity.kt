@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         mainNavigator = MainNavigator(this)
 
-        mainVm = createViewModel { Vms.vmComponent.mainVm() }
+        mainVm = createViewModel { Vms.getVmComponent().mainVm() }
 
         val isFreshAppStart = savedInstanceState == null
         mainVm.onActivityCreate(isFreshAppStart)
