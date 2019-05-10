@@ -25,6 +25,8 @@ open class BaseE2eTest {
 
     @Before
     fun baseE2eSetup() {
+        Vms.reset()
+
         IdlingRegistry.getInstance().register(httpCallsCountingIdlingResource)
 
         val pzzApi = createHttpPzzApi("https://pzz.by/api/v1/",

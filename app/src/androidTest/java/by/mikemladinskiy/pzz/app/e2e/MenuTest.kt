@@ -1,20 +1,10 @@
 package by.mikemladinskiy.pzz.app.e2e
 
-import androidx.test.InstrumentationRegistry
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import by.mikemladinskiy.pzz.app.BaseTest
-import by.mikemladinskiy.pzz.app.R
-import by.mikemladinskiy.pzz.app.common.EspressoTestsMatchers.hasDrawable
 import by.mikemladinskiy.pzz.app.windows.Windows
 
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import java.lang.Thread.sleep
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -30,6 +20,6 @@ class MenuTest : BaseE2eTest() {
         launchActivity()
 
         // then
-        Windows.menu().checkFirstPizzaIsDisplayed("Гавайская", "16,90")
+        Windows.menu().checkPizzaIsDisplayed(0, "Ранч пицца", "16,90")
     }
 }

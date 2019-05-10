@@ -15,17 +15,21 @@ import androidx.recyclerview.widget.RecyclerView
 import by.mikemladinskiy.pzz.app.Converters.toVisibleOrGone
 import by.mikemladinskiy.pzz.app.databinding.MenuFragmentBinding
 import by.mikemladinskiy.pzz.app.databinding.PizzaItemBinding
+import by.mikemladinskiy.pzz.app.dialogs.DialogRegistry
+import by.mikemladinskiy.pzz.app.dialogs.Dialogs
 import by.mikemladinskiy.pzz.core.model.Pizza
 import by.mikemladinskiy.pzz.core.vm.DaggerVmComponent
 import by.mikemladinskiy.pzz.core.vm.MainVm
 import by.mikemladinskiy.pzz.core.vm.MenuVm
 import by.mikemladinskiy.pzz.core.vm.Vms
+import com.besmartmobile.result.annimon.OptionalExt.none
 import com.squareup.picasso.Picasso
 
 class MenuFragment: Fragment() {
 
     lateinit var menuVm: MenuVm
     lateinit var layoutBinding: MenuFragmentBinding
+    lateinit var dialogs: Dialogs
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         layoutBinding = MenuFragmentBinding.inflate(inflater, container, false)
@@ -36,6 +40,7 @@ class MenuFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        dialogs = Dialogs(requireContext(), requireActivity() as DialogRegistry)
         menuVm = createViewModel { Vms.getVmComponent().menuVm() }
 
         pizzaAdapter = PizzaAdapter(requireContext())
@@ -51,21 +56,12 @@ class MenuFragment: Fragment() {
         menuVm.pizzasList.live().observe(this, Observer { pizzas ->
             pizzaAdapter.items = pizzas
         })
-        menuVm.error.live().observe(this, Observer { error ->
-            if (error.isPresent) {
-                showError()
+        bindDialog(menuVm.error) {
+            dialogs.errorDialog(R.string.apiError) {
+                menuVm.error.value = none()
             }
-        })
+        }
 
-    }
-
-    private fun showError() {
-        val errorDialog = AlertDialog.Builder(requireContext())
-            .setMessage(R.string.apiError)
-            .setCancelable(false)
-            .setPositiveButton(R.string.okButton, { dialog, which -> dialog.dismiss() })
-            .create()
-        errorDialog.show()
     }
 
     class PizzaAdapter(private val context: Context): RecyclerView.Adapter<PizzaVH>() {
