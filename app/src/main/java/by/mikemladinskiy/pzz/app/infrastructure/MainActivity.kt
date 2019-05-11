@@ -1,8 +1,9 @@
-package by.mikemladinskiy.pzz.app
+package by.mikemladinskiy.pzz.app.infrastructure
 
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import by.mikemladinskiy.pzz.app.R
 import by.mikemladinskiy.pzz.app.dialogs.BoundDialogs
 import by.mikemladinskiy.pzz.app.dialogs.DialogRegistry
 import by.mikemladinskiy.pzz.core.vm.MainVm

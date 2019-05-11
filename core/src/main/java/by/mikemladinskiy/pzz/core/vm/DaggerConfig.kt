@@ -17,6 +17,7 @@ import javax.inject.Singleton
 interface VmComponent {
     fun mainVm(): MainVm
     fun menuVm(): MenuVm
+    fun deliveryAvailabilityVm(): DeliveryAvailabilityVm
 
     @Component.Builder
     interface Builder {

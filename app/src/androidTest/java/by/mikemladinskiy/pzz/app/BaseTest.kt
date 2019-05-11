@@ -1,6 +1,7 @@
 package by.mikemladinskiy.pzz.app
 
 import androidx.test.rule.ActivityTestRule
+import by.mikemladinskiy.pzz.app.infrastructure.MainActivity
 import by.mikemladinskiy.pzz.core.test.FakePzzApi
 import by.mikemladinskiy.pzz.core.vm.Vms
 import org.junit.Before

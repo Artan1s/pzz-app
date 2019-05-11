@@ -1,4 +1,4 @@
-package by.mikemladinskiy.pzz.app
+package by.mikemladinskiy.pzz.app.infrastructure
 
 import android.view.View
 import androidx.annotation.IntDef
@@ -11,12 +11,12 @@ object Converters {
     @Retention(RetentionPolicy.SOURCE)
     annotation class Visibility
 
-    @Converters.Visibility
+    @Visibility
     fun toVisibleOrGone(isVisible: Boolean): Int {
         return if (isVisible) View.VISIBLE else View.GONE
     }
 
-    @Converters.Visibility
+    @Visibility
     fun toVisibleOrInvisible(isVisible: Boolean): Int {
         return if (isVisible) View.VISIBLE else View.INVISIBLE
     }

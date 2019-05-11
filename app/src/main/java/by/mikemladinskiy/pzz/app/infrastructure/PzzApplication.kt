@@ -1,4 +1,4 @@
-package by.mikemladinskiy.pzz.app
+package by.mikemladinskiy.pzz.app.infrastructure
 
 import android.app.Application
 import com.squareup.picasso.Cache

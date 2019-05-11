@@ -3,7 +3,7 @@ package by.mikemladinskiy.pzz.app.e2e
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.idling.CountingIdlingResource
 import androidx.test.rule.ActivityTestRule
-import by.mikemladinskiy.pzz.app.MainActivity
+import by.mikemladinskiy.pzz.app.infrastructure.MainActivity
 import by.mikemladinskiy.pzz.core.backend.ApiMaybeDecorator
 import by.mikemladinskiy.pzz.core.backend.createHttpPzzApi
 import by.mikemladinskiy.pzz.core.vm.Vms

@@ -1,25 +1,22 @@
 package by.mikemladinskiy.pzz.app
 
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import by.mikemladinskiy.pzz.app.Converters.toVisibleOrGone
+import by.mikemladinskiy.pzz.app.infrastructure.Converters.toVisibleOrGone
 import by.mikemladinskiy.pzz.app.databinding.MenuFragmentBinding
 import by.mikemladinskiy.pzz.app.databinding.PizzaItemBinding
 import by.mikemladinskiy.pzz.app.dialogs.DialogRegistry
 import by.mikemladinskiy.pzz.app.dialogs.Dialogs
+import by.mikemladinskiy.pzz.app.infrastructure.bindDialog
+import by.mikemladinskiy.pzz.app.infrastructure.createViewModel
 import by.mikemladinskiy.pzz.core.model.Pizza
-import by.mikemladinskiy.pzz.core.vm.DaggerVmComponent
-import by.mikemladinskiy.pzz.core.vm.MainVm
 import by.mikemladinskiy.pzz.core.vm.MenuVm
 import by.mikemladinskiy.pzz.core.vm.Vms
 import com.besmartmobile.result.annimon.OptionalExt.none
@@ -43,7 +40,7 @@ class MenuFragment: Fragment() {
         dialogs = Dialogs(requireContext(), requireActivity() as DialogRegistry)
         menuVm = createViewModel { Vms.getVmComponent().menuVm() }
 
-        pizzaAdapter = PizzaAdapter(requireContext())
+        pizzaAdapter = PizzaAdapter(requireContext(), menuVm)
         layoutBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         layoutBinding.recyclerView.adapter = pizzaAdapter
         subscribeUi()
@@ -64,7 +61,7 @@ class MenuFragment: Fragment() {
 
     }
 
-    class PizzaAdapter(private val context: Context): RecyclerView.Adapter<PizzaVH>() {
+    class PizzaAdapter(private val context: Context, private val menuVm: MenuVm): RecyclerView.Adapter<PizzaVH>() {
         var items: List<Pizza> = listOf()
             set(value) {
                 field = value
@@ -94,6 +91,8 @@ class MenuFragment: Fragment() {
                 .centerCrop()
                 .resize(screenWidth, screenWidth * 32 / 75)
                 .into(binding.imageView)
+
+            binding.orderButton.setOnClickListener { menuVm.order(item) }
         }
 
     }

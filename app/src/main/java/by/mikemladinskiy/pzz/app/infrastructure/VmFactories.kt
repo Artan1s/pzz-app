@@ -1,4 +1,4 @@
-package by.mikemladinskiy.pzz.app
+package by.mikemladinskiy.pzz.app.infrastructure
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

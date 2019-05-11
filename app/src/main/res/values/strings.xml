@@ -3,4 +3,5 @@
     <string name="orderButton">Order</string>
     <string name="okButton">Ok</string>
     <string name="apiError">Api error</string>
+    <string name="deliveryAvailabilityScreenTitle">ADDRESS</string>
 </resources>

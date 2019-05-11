@@ -28,4 +28,8 @@ class MenuVm @Inject constructor(pzzApi: PzzApi): BaseVm() {
             .onFailure { e -> error.value = some(e) }
 
     }
+
+    fun order(pizza: Pizza) {
+
+    }
 }

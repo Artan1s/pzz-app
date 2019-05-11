@@ -1,6 +1,8 @@
-package by.mikemladinskiy.pzz.app
+package by.mikemladinskiy.pzz.app.infrastructure
 
 import androidx.fragment.app.FragmentManager
+import by.mikemladinskiy.pzz.app.MenuFragment
+import by.mikemladinskiy.pzz.app.R
 
 class MainNavigator(private val mainActivity: MainActivity) {
     private var containerId: Int
@@ -14,9 +16,10 @@ class MainNavigator(private val mainActivity: MainActivity) {
     fun navigateToMenu() {
         hideKeyboard()
         val fragment = MenuFragment()
+
         fragmentManager.beginTransaction()
             .add(containerId, fragment, null)
-            .commitAllowingStateLoss()
+            .commit()
     }
 
     private fun hideKeyboard() {
