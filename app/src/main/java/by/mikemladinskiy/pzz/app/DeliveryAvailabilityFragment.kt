@@ -4,23 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import by.mikemladinskiy.pzz.app.databinding.DeliveryAvailabilityFragmentBinding
 import by.mikemladinskiy.pzz.app.dialogs.DialogRegistry
 import by.mikemladinskiy.pzz.app.dialogs.Dialogs
+import by.mikemladinskiy.pzz.app.infrastructure.BaseFragment
 import by.mikemladinskiy.pzz.app.infrastructure.Converters.toVisibleOrGone
 import by.mikemladinskiy.pzz.app.infrastructure.bindDialog
+import by.mikemladinskiy.pzz.app.infrastructure.bindTextTwoWay
 import by.mikemladinskiy.pzz.app.infrastructure.createViewModel
 import by.mikemladinskiy.pzz.core.vm.DeliveryAvailabilityVm
 import by.mikemladinskiy.pzz.core.vm.Vms
 import com.besmartmobile.result.annimon.OptionalExt.none
 
-class DeliveryAvailabilityFragment: Fragment() {
+class DeliveryAvailabilityFragment: BaseFragment() {
 
-    lateinit var deliveryAvailabilityVm: DeliveryAvailabilityVm
+    lateinit var vm: DeliveryAvailabilityVm
     lateinit var layoutBinding: DeliveryAvailabilityFragmentBinding
     lateinit var dialogs: Dialogs
+    lateinit var streetAutocompleteAdapter: ArrayAdapter<String>
+    lateinit var buildingAutocompleteAdapter: ArrayAdapter<String>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         layoutBinding = DeliveryAvailabilityFragmentBinding.inflate(inflater, container, false)
@@ -31,19 +35,46 @@ class DeliveryAvailabilityFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dialogs = Dialogs(requireContext(), requireActivity() as DialogRegistry)
-        deliveryAvailabilityVm = createViewModel { Vms.getVmComponent().deliveryAvailabilityVm() }
+        vm = createViewModel { Vms.getVmComponent().deliveryAvailabilityVm() }
+
+        streetAutocompleteAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
+        layoutBinding.streetEditText.setAdapter(streetAutocompleteAdapter)
+        layoutBinding.streetEditText.threshold = 2
+
+        buildingAutocompleteAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
+        layoutBinding.buildingEditText.setAdapter(buildingAutocompleteAdapter)
+        layoutBinding.buildingEditText.threshold = 0
 
         subscribeUi()
     }
 
     private fun subscribeUi() {
-        deliveryAvailabilityVm.isLoading.live().observe(this, Observer {
+        vm.isLoading.live().observe(this, Observer {
             layoutBinding.progressBarLayout.visibility = toVisibleOrGone(it)
         })
+        vm.streetList.live().observe(this, Observer {
+            streetAutocompleteAdapter.clear()
+            streetAutocompleteAdapter.addAll(it.map { it.title })
+        })
+        vm.availableBuildings.live().observe(this, Observer {
+            buildingAutocompleteAdapter.clear()
+            buildingAutocompleteAdapter.addAll(it.map { it.title })
+        })
 
-        bindDialog(deliveryAvailabilityVm.error) {
+        bindTextTwoWay(vm.street, layoutBinding.streetEditText)
+        bindTextTwoWay(vm.building, layoutBinding.buildingEditText)
+
+        vm.buildingEnabled.live().observe(this, Observer {
+            layoutBinding.buildingEditText.isEnabled = it
+        })
+
+        vm.nextEnabled.live().observe(this, Observer {
+            layoutBinding.button.isEnabled = it
+        })
+
+        bindDialog(vm.error) {
             dialogs.errorDialog(R.string.apiError) {
-                deliveryAvailabilityVm.error.value = none()
+                vm.error.value = none()
             }
         }
 

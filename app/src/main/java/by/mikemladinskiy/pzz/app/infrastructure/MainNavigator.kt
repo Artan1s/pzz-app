@@ -1,6 +1,7 @@
 package by.mikemladinskiy.pzz.app.infrastructure
 
 import androidx.fragment.app.FragmentManager
+import by.mikemladinskiy.pzz.app.DeliveryAvailabilityFragment
 import by.mikemladinskiy.pzz.app.MenuFragment
 import by.mikemladinskiy.pzz.app.R
 
@@ -19,6 +20,15 @@ class MainNavigator(private val mainActivity: MainActivity) {
 
         fragmentManager.beginTransaction()
             .add(containerId, fragment, null)
+            .commit()
+    }
+
+    fun navigateToDeliveryAvailability() {
+        hideKeyboard()
+        val fragment = DeliveryAvailabilityFragment()
+
+        fragmentManager.beginTransaction()
+            .replace(containerId, fragment, null)
             .commit()
     }
 

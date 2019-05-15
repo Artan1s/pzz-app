@@ -9,9 +9,21 @@ import java.lang.reflect.Method
 open class BaseVm: ViewModel() {
 
     private val baseVmCompositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val boundDisposables = mutableListOf<Disposable>()
 
     protected fun bind(disposable: Disposable) {
+        removeDisposed()
+        boundDisposables.add(disposable)
         baseVmCompositeDisposable.add(disposable)
+    }
+
+    private fun removeDisposed() {
+        boundDisposables
+            .filter { it.isDisposed }
+            .forEach {
+                boundDisposables.remove(it)
+                baseVmCompositeDisposable.delete(it)
+            }
     }
 
     override fun onCleared() {

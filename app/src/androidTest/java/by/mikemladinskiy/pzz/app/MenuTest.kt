@@ -56,7 +56,7 @@ class MenuTest : BaseTest() {
     }
 
     private fun setupApiError() {
-        testPzzApi.setPizzas(fail())
+        testPzzApi.pizzaList = fail()
     }
 
     private fun checkListOfPizzasDisplayed() {
@@ -67,6 +67,6 @@ class MenuTest : BaseTest() {
     }
 
     private fun setupListOfPizzas() {
-        testPzzApi.setPizzas(ok(listOf(hawaiiPizza, mushroomsPizza)))
+        testPzzApi.pizzaList = ok(listOf(hawaiiPizza, mushroomsPizza))
     }
 }

@@ -14,7 +14,7 @@ class DtoToDomainConverterTest {
 
         val converter = DtoToDomainConverter()
 
-        val pizzas = converter.convert(listOf(pizza1Dto, pizza2Dto))
+        val pizzas = converter.convertPizzas(listOf(pizza1Dto, pizza2Dto))
 
         assertEquals(2, pizzas.size)
         assertCorrectlyFormed(pizza1Dto, pizzas[0])

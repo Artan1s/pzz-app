@@ -14,6 +14,7 @@ import by.mikemladinskiy.pzz.app.databinding.MenuFragmentBinding
 import by.mikemladinskiy.pzz.app.databinding.PizzaItemBinding
 import by.mikemladinskiy.pzz.app.dialogs.DialogRegistry
 import by.mikemladinskiy.pzz.app.dialogs.Dialogs
+import by.mikemladinskiy.pzz.app.infrastructure.BaseFragment
 import by.mikemladinskiy.pzz.app.infrastructure.bindDialog
 import by.mikemladinskiy.pzz.app.infrastructure.createViewModel
 import by.mikemladinskiy.pzz.core.model.Pizza
@@ -22,9 +23,9 @@ import by.mikemladinskiy.pzz.core.vm.Vms
 import com.besmartmobile.result.annimon.OptionalExt.none
 import com.squareup.picasso.Picasso
 
-class MenuFragment: Fragment() {
+class MenuFragment: BaseFragment() {
 
-    lateinit var menuVm: MenuVm
+    lateinit var vm: MenuVm
     lateinit var layoutBinding: MenuFragmentBinding
     lateinit var dialogs: Dialogs
 
@@ -38,27 +39,32 @@ class MenuFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dialogs = Dialogs(requireContext(), requireActivity() as DialogRegistry)
-        menuVm = createViewModel { Vms.getVmComponent().menuVm() }
+        vm = createViewModel { Vms.getVmComponent().menuVm() }
 
-        pizzaAdapter = PizzaAdapter(requireContext(), menuVm)
+        pizzaAdapter = PizzaAdapter(requireContext(), vm)
         layoutBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         layoutBinding.recyclerView.adapter = pizzaAdapter
         subscribeUi()
     }
 
     private fun subscribeUi() {
-        menuVm.isLoading.live().observe(this, Observer {
+        vm.isLoading.live().observe(this, Observer {
             layoutBinding.progressBarLayout.visibility = toVisibleOrGone(it)
         })
-        menuVm.pizzasList.live().observe(this, Observer { pizzas ->
+        vm.pizzasList.live().observe(this, Observer { pizzas ->
             pizzaAdapter.items = pizzas
         })
-        bindDialog(menuVm.error) {
+        bindDialog(vm.error) {
             dialogs.errorDialog(R.string.apiError) {
-                menuVm.error.value = none()
+                vm.error.value = none()
             }
         }
-
+        vm.navigateToOrder.live().observe(this, Observer {
+            it.ifPresent {
+                navigator.navigateToDeliveryAvailability()
+                vm.navigatedToOrder()
+            }
+        })
     }
 
     class PizzaAdapter(private val context: Context, private val menuVm: MenuVm): RecyclerView.Adapter<PizzaVH>() {
