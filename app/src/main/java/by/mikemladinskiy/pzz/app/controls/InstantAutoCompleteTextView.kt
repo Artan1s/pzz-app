@@ -3,10 +3,10 @@ package by.mikemladinskiy.pzz.app.controls
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.widget.AutoCompleteTextView
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 
 
-class InstantAutoCompleteTextView : AutoCompleteTextView {
+class InstantAutoCompleteTextView : AppCompatAutoCompleteTextView {
 
     constructor(context: Context) : super(context) {}
 
