@@ -5,6 +5,7 @@ import by.mikemladinskiy.pzz.core.model.Pizza
 import by.mikemladinskiy.pzz.core.model.PzzApi
 import by.mikemladinskiy.pzz.core.model.Street
 import com.besmartmobile.result.annimon.Result
+import com.besmartmobile.result.annimon.ResultExt.fail
 import com.besmartmobile.result.annimon.ResultExt.ok
 import com.besmartmobile.result.annimon.Unit
 import io.reactivex.Maybe
@@ -12,7 +13,7 @@ import io.reactivex.Maybe
 class FakePzzApi: PzzApi {
     var pizzaList: Result<List<Pizza>, Unit> = ok(listOf())
     var streetList: Result<List<Street>, Unit> = ok(listOf())
-    var buildings: Map<String, Result<List<Building>, Unit>> = mapOf()
+    var buildings: Map<String, List<Building>> = mapOf()
 
     override fun getPizzas(): Maybe<Result<List<Pizza>, Unit>> {
         return Maybe.just(pizzaList)
@@ -23,7 +24,11 @@ class FakePzzApi: PzzApi {
     }
 
     override fun getBuildings(streetId: String): Maybe<Result<List<Building>, Unit>> {
-        return Maybe.just(buildings[streetId])
+        if (!buildings.containsKey(streetId)) {
+            return Maybe.just(fail());
+        }
+        val result = ok<List<Building>, Unit>(buildings[streetId])
+        return Maybe.just(result)
     }
 
 }

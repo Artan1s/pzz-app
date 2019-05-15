@@ -17,7 +17,6 @@ class DeliveryAvailabilityVm @Inject constructor(private val pzzApi: PzzApi): Ba
     private var availableBuildingRequestDisposable: Disposable? = null
 
     var streetList = vmField<List<Street>>(listOf())
-
     val isLoading = vmField(true)
     val error = vmField<Optional<Unit>>(none())
     val street = vmField("")
@@ -43,7 +42,6 @@ class DeliveryAvailabilityVm @Inject constructor(private val pzzApi: PzzApi): Ba
     private fun buildingChanged(buildingText: String) {
         val matchingBuilding = availableBuildings.value.firstOrNull { it.title == buildingText }
         nextEnabled.value = matchingBuilding != null
-
     }
 
     private fun streetChanged(streetText: String) {
@@ -79,6 +77,9 @@ class DeliveryAvailabilityVm @Inject constructor(private val pzzApi: PzzApi): Ba
             availableBuildings.value = buildings
             buildingEnabled.value = true
         }
-            .onFailure { e -> error.value = OptionalExt.some(e) }
+            .onFailure { e ->
+                error.value = OptionalExt.some(e)
+                buildingEnabled.value = false
+            }
     }
 }
