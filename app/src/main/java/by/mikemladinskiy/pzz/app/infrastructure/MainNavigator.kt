@@ -28,6 +28,7 @@ class MainNavigator(private val mainActivity: MainActivity) {
         val fragment = DeliveryAvailabilityFragment()
 
         fragmentManager.beginTransaction()
+            .addToBackStack(null)
             .replace(containerId, fragment, null)
             .commit()
     }
