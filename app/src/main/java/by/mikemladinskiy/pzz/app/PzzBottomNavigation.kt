@@ -3,13 +3,14 @@ package by.mikemladinskiy.pzz.app
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
+import android.view.ViewOutlineProvider
 import androidx.constraintlayout.widget.ConstraintLayout
+import by.mikemladinskiy.pzz.app.databinding.PzzBottomNavigationBinding
+import by.mikemladinskiy.pzz.app.infrastructure.dpToPx
 
 class PzzBottomNavigation: ConstraintLayout {
 
-    private lateinit var menuTab: View
-    private lateinit var historyTab: View
+    private lateinit var layoutBinding: PzzBottomNavigationBinding
 
     constructor(context: Context?) : super(context) {
         init(context!!)
@@ -24,8 +25,9 @@ class PzzBottomNavigation: ConstraintLayout {
     }
 
     fun init(context: Context) {
-        LayoutInflater.from(context).inflate(R.layout.pzz_bottom_navigation, this, true)
-        menuTab = findViewById<View>(R.id.menuTab)
-        historyTab = findViewById<View>(R.id.historyTab)
+        layoutBinding = PzzBottomNavigationBinding.inflate(LayoutInflater.from(context), this, true)
+        elevation = context.dpToPx(15f)
+
+        outlineProvider = ViewOutlineProvider.BOUNDS
     }
 }

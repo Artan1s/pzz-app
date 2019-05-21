@@ -45,6 +45,9 @@ class DeliveryAvailabilityFragment: BaseFragment() {
         layoutBinding.buildingEditText.setAdapter(buildingAutocompleteAdapter)
         layoutBinding.buildingEditText.threshold = 0
 
+        layoutBinding.header.setCloseVisible(true)
+        layoutBinding.header.onCloseClick = { requireFragmentManager().popBackStackImmediate() }
+
         subscribeUi()
     }
 

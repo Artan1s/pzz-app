@@ -7,4 +7,6 @@
     <color name="windowBackgroundColor">#ffffff</color>
     <color name="main">#6a2482</color>
     <color name="primaryText">#000000</color>
+
+    <color name="formBackground">#F1F1F1</color>
 </resources>

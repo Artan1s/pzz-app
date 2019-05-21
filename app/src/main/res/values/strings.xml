@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">pzz</string>
+    <string name="menuHeader">TODAY’S MENU</string>
     <string name="orderButton">Order</string>
-    <string name="okButton">Ok</string>
+    <string name="okButton">OK</string>
     <string name="apiError">Api error</string>
-    <string name="deliveryAvailabilityScreenTitle">ADDRESS</string>
+    <string name="deliveryAvailabilityScreenTitle">YOUR ADDRESS</string>
     <string name="next">NEXT</string>
+    <string name="street">Street</string>
+    <string name="house">House</string>
 </resources>
