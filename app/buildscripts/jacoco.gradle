@@ -62,7 +62,7 @@ project.afterEvaluate {
         executionData = files(
             "${project.buildDir}/jacoco/${testTaskName}.exec",
                 connectedCoverageFile,
-            "../$coreProject/build/jacoco/${testTaskName}.exec"
+            "../$coreProject/jacoco.exec"
         )
 
         doLast {
